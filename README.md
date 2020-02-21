@@ -1,6 +1,8 @@
 # SoalShiftSISOP20_modul1_H01
 
 Soal Shift Sistem Operasi 2020\
+
+
 Hisyam Zulkarnain F             05311840000019\
 Bayu Trianayasa                 05311840000038
 ## #1 &ndash; Mengolah Data
@@ -140,89 +142,45 @@ Sama saja seperti *script* enkripsi, hanya saja set pertama dan set kedua dituka
 
 `stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)'` untuk menampilkan file sistem status lalu mengambil jam file input dibuat. 
 
-## #3 &ndash; Cat
-> Source code: [soal3.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3.sh), [soal3_cron.txt](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3_cron.txt), [soal3_identify.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3_identify.sh)
+## #3 &ndash;
+> Source code: [soal3a.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3a.sh), [soal3b.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3b.txt, [soal3c.sh]()
 
 ---
 
-Untuk mendownload gambar, digunakan script `soal3.sh` berisi kode berikut.
+Soal3a\
+Download 28 picture.
 
-```shell
-i=$(ls pdkt_kusuma_* | grep -o '[0-9]*' | sort -rn | head -n 1)
-for ((x = 0; x < 28; x++))
-do
-	i=$(($i+1))
-	wget -O pdkt_kusuma_$i https://loremflickr.com/320/240/cat -a wget.log
-done
+```bash
+#!/bin/bash
+
+for i in {1..28} do wget -O pdkt_kusuma_$i https://loremflickr.com/320/240/cat -a wget.log done
 ```
 
-Pertama, perintah `ls pdkt_kusuma_* | grep -o '[0-9]*' | sort -rn | head -n 1` mengambil indeks terakhir dari gambar-gambar yang sudah terdownload sebelumnya.
+`for i in {1..28} do` Perintah looping for selama i didalam angka 1-28 maka lakukan perintah selanjutnya.
 
-`ls pdkt_kusuma_*` menampilkan semua file dengan awalan "pdkt_kusuma_".
 
-`grep -o '[0-9]*'` hanya mengoutputkan bagian angkanya saja.
-
-`sort -rn` mengurutkan hasil output sebelumnya berdasar angka (`-n`) sehingga yang paling besar di atas (`-r`).
-
-`head -n 1` mengambil yang paling besar saja (paling atas).
-
-Kemudian, nilai `i` ditambah 1.
-
-Kemudian gambar bisa didownload dan disimpan menyesuaikan dengan nilai `i`, dan output di-*append* ke file `wget.log`.
-
-Ini dilakukan sebanyak 28 kali untuk mendownload 28 gambar dari URL tersebut.
+`wget -O pdkt_kusuma_$i https://loremflickr.com/320/240/cat -a wget.log done` fungsi `-wget` untuk mendownload picture dan `-o` untuk mengubah nama file dan `-a` untuk menambahkan file dari web yang udah dicantumkan.
 
 ---
 
-Untuk menjalankan script `soal3.sh` setiap 8 jam dimulai dari jam 6.05 kecuali hari Sabtu, dibuat cron job berikut.
+Soal 3b\
+Crontab
 
-```
-5 6-23/8 * * 0-5 /home/noel/Desktop/modul1/soal3.sh
-```
-
-`5 6-23/8 * * 0-5` berarti menit 5, jam 6 sampai 23 (dilakukan setiap 8 jam), tanggal berapapun, bulan apapun, hari Minggu - Jumat.
-
-`/home/noel/Desktop/modul1/soal3.sh` menandakan lokasi file, dalam kasus ini terletak pada Desktop user noel, dalam folder modul1.
-
----
-
-Untuk mencari duplikat, script `soal3_identify.sh` berisi kode berikut.
-
-```awk
-cat wget.log | grep Location: > location.log
-
-mkdir kenangan
-mkdir duplicate
-awk '{
-	i++
-	print i ";" $2
-}' location.log | awk -F ';' '{
-	cnt[$2]++
-	if (cnt[$2] > 1) {
-		cmd = "mv pdkt_kusuma_" $1 " duplicate/duplicate_" $1
-	} else {
-		cmd = "mv pdkt_kusuma_" $1 " kenangan/kenangan_" $1
-	}
-	system(cmd)
-}'
-ls *.log | awk '{
-	cmd = "cp " $0 " " $0 ".bak"
-	system(cmd)
-}'
+```bash
+5 6-23/8 * * 0-5 cd /home/osboxes/sisop20/soal3a.sh
 ```
 
-Pertama, baris-baris pada *logfile* `wget.log` yang mengandung karakter "Location:" disimpan pada file "location.log".
+`5` artinya menit ke-5.
 
-Sebelum dimulai, dibuat folder "kenangan" dan "duplicate" untuk memastikan kedua folder itu sudah ada.
 
-Lalu, dengan perintah AWK setiap baris diberi nomor sesuai dengan nomor download gambarnya, dan dari file "location.log" diambil *path*nya saja untuk membantu mengidentifikasi file identik, dipisahkan dengan `;`.
+`6-23/8` artinya setiap 8 jam sekali dari jam 06.00-23.00.
 
-Hasil dari perintah AWK tersebut dijalankan AWK lagi dengan *field separator* `;`.
 
-Dibuat *associative array* dengan key yaitu *path* yang didapat dari file "location.log". Untuk setiap file dengan *path* sama, nilai array ditambah satu.
+`0-5` artinya setiap hari kecuali hari sabtu.
 
-Untuk setiap baris, dicek apabila sudah ada lebih dari satu *path* yang sama, maka file dipindah ke folder "duplicate" dan diberi nama "duplicate_xx" sesuai dengan nomornya, sedangkan apabila file belum ada yang menyamai maka dipindah ke folder "kenangan" dan diberi nama "kenangan_xx".
 
-Setelah semua pemindahan selesai, dilakukan *backup* seluruh *logfile*.
+`/home/osboxes/sisop20/soal3a.sh` lokasi 
 
-`ls *.log` untuk menampilkan seluruh *logfile* yang ada, kemudian perintah AWK digunakan untuk menyalin file tersebut dengan ekstensi tambahan ".bak".
+
+
+
