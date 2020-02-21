@@ -76,8 +76,7 @@ awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%
 
 
 ## #2 &ndash; Membuat Password acak, lalu melakukan Enkripsi & Dekripsi dari password acak tersebut
-> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21
-/blob/master/soal2.sh), [soal2c.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2c.sh), [soal2d.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2d.sh)
+> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2.sh), [soal2c.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2c.sh), [soal2d.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2d.sh)
 
 ---
 
