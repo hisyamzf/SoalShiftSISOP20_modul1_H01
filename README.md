@@ -9,7 +9,9 @@ Bayu Trianayasa                 05311840000038
 ---
 Soal 1A mencari satu *region* dengan *profit* paling minimal.
 
-```a=`awk -F "," 'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' Sample-Superstore.csv | sort -g -t"," -k 2  | awk -F "," 'NR<2 {printf "%s\n", $1 }'`
+```
+
+`a=`awk -F "," 'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' Sample-Superstore.csv | sort -g -t"," -k 2  | awk -F "," 'NR<2 {printf "%s\n", $1 }'`
 echo $a
 echo ""
 
@@ -17,7 +19,7 @@ echo ""
 `awk -F ","` Option -F untuk memisah bidang/kolom yang terdapat di .csv
 
 
-`'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' untuk mengelompokan masing2 region(kolom13) beserta profitnya(kolom21) lalu dijumlahkan profitnya terhadap region yang sama. lalu cetak hasil pengelompokan serta penjumlahan tersebut.
+`'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}` untuk mengelompokan masing2 region(kolom13) beserta profitnya(kolom21) lalu dijumlahkan profitnya terhadap region yang sama. lalu cetak hasil pengelompokan serta penjumlahan tersebut.
 
 
 `Sample-Superstore.csv` Nama file yang ingin diolah datanya.
@@ -26,73 +28,49 @@ echo ""
 `sort -g -t"," -k 2` untuk mensortir hasil dari pengelompokkan sebelumnya. `-g` untuk mensortir general number `-t","` untuk mengatur field separatornya dan `-k 2` untuk set key terhadap kolom profit(kolom 2).
 
 
-`awk -F "," 'NR<2 {printf "%s\n", $1 }'`` untuk mencetak hasil dari sortiran dan mencetak hasil kolom 1 aja.
+``awk -F "," 'NR<2 {printf "%s\n", $1 }'`` untuk mencetak hasil dari sortiran dan mencetak hasil kolom 1 aja.
 `echo $a` untuk mencetak hasil dari variabel a
 
-
-
-
-
-
-Output dari perintah AWK tersebut di-*pipe* ke dalam urutan perintah berikut.
-
-`sort -g -k 1` untuk melakukan pengurutan sesuai dengan bilangan pecahan (`-g`) pada kolom pertama (`-k 1`) terpisah oleh spasi.
-
-`grep -oP '(?<=[0-9.] ).*'` untuk mengambil nama *region*nya saja, dengan menggunakan POSIX (`-P`) *regex lookbehind* dengan format `(?<=...)` untuk membuang angka di depan sehingga yang terambil hanya karakter sisanya  dengan `.*`.
-
-`head -n 1` untuk hanya mengambil 1 baris teratas.
-
 ---
 
-Soal (b) dapat diselesaikan dengan perintah AWK berikut.
+Soal 1B mencari state yang memimiliki profit paling rendah berdasarkan hasil dari poin 1A
 
-```awk
-awk -F '	' -v a="$a" '
-$13 == a {
-	data[$11] += $21
-}
-END {
-	print a
-	for (i in data) {
-		print data[i] " " i
-	}
-}' Sample-Superstore.tsv
+```
+b=`awk -F "," -v a=$a 'NR>1{if($13~a)var[$11]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<3 {printf "%s\n", $1 }'`
+c1=`echo $b | awk -F " " '{print $1}'`
+c2=`echo $b | awk -F " " '{print $2}'`
+echo $c1 $c2 
+echo ""
+
 ```
 
-Terdapat argumen `-v a="$a"` yang gunanya untuk memasukkan variabel *shell* ke dalam program AWK dengan nama "a".
+Option`-v a="$a"`untuk memasukkan variabel *shell* ke dalam program AWK dengan nama "a".
 
-Perintah AWK tersebut sama persis dengan solusi soal (a), dengan dua perbedaan:
-1. Untuk setiap baris, dilakukan pengecekan apakah *region* record tersebut sesuai dengan hasil soal (a).
-2. *Profit* ditambahkan berdasarkan *state* (*field* ke-11).
 
-Hasil perintah AWK tersebut di-*pipe* ke serangkaian perintah yang sama dengan soal (a), kecuali perintah terakhir `head -n 2`, yang mengambil dua baris teratas.
+`'NR>1{if($13~a)var[$11]+=$21}` Fungsi if berfungsi untuk pengecualian jika kolom 13 sama dengan variable a, maka akan dilanjutkan  dengan mengelompokan masing2 state(kolom11) beserta profitnya(kolom21) lalu dijumlahkan profitnya terhadap state yang sama. 
 
----
 
-Soal (c) dapat diselesaikan dengan perintah AWK berikut.
+``c1=`echo $b` | `awk -F " " '{print $1}'`` berfungsi untuk mencetak kolom 1 dari hasil state yang telah dikelompokkan berdasarkan profitnya. karena output dari perintah sebelumnya menghasilkan 2 hasil (state) 
 
-```awk
-awk -F '	' -v b="$b" '
-BEGIN {
-	split(b, check, "\n")
-}
-$11 == check[1] || $11 == check[2] {
-	data[$17] += $21
-}
-END {
-	for (i in data) {
-		print data[i] " " i
-	}
-}' Sample-Superstore.tsv
+
+Soal 1C mencari 10 nama produk yang memiliki profit paling sedikit berdasarkan state yang telah ditentukan dari point 1B. 
+
+```
+awk -F "," -v c=$c1 'NR>1{if($11~c)var[$17]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<11 {printf "%s\n", $1 }'
+echo ""
+awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F " ," 'NR<11 {printf "%s\n", $1}'
+
 ```
 
-Sekali lagi, perintah AWK sama persis dengan soal (b), hanya saja untuk setiap baris dilakukan pengecekan bahwa *state* sesuai dengan keluaran soal (b), dan *profit* dijumlahkan berdasarkan *product name*.
+`'NR<11 {printf "%s\n", $1 }'` Dikarenakan diperintahkan untuk mencari 10 produk yang meiliki profit terendah, maka NR<11 yang artinya adalah jika melebihi dari baris ke 10 maka perintah tersebut tidak akan dilanjutkan. 
+
+
+`echo ""` untuk mencetak new line agar memisahkan produk dari masing-masing state yang telah ditentukan. 
 
 ---
 
-Untuk soal (a), (b), dan (c), hasil keluaran perintah disimpan dalam sebuah variabel, sehingga dapat dicetak dengan `echo`, dan dapat digunakan untuk soal berikutnya.
 
-## #2 &ndash; Caesar Cipher
+## #2 &ndash; Membuat Password acak, lalu melakukan Enkripsi & Dekripsi dari password acak tersebut
 > Source code: [soal2.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2.sh), [soal2_enkripsi.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2_enkripsi.sh), [soal2_dekripsi.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2_dekripsi.sh)
 
 ---
