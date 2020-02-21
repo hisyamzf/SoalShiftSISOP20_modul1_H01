@@ -179,8 +179,5 @@ Crontab
 `0-5` artinya setiap hari kecuali hari sabtu.
 
 
-`/home/osboxes/sisop20/soal3a.sh` lokasi 
-
-
 
 
