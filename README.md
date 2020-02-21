@@ -153,7 +153,10 @@ Download 28 picture.
 ```bash
 #!/bin/bash
 
-for i in {1..28} do wget -O pdkt_kusuma_$i https://loremflickr.com/320/240/cat -a wget.log done
+for i in {1..28}
+do wget -O pdkt_kusuma_$i https://loremflickr.com/320/240/cat -a wget.log
+done
+
 ```
 
 `for i in {1..28} do` Perintah looping for selama i didalam angka 1-28 maka lakukan perintah selanjutnya.
@@ -167,7 +170,7 @@ Soal 3b\
 Crontab
 
 ```bash
-5 6-23/8 * * 0-5 cd /home/osboxes/sisop20/soal3a.sh
+5 6-23/8 * * 0-5  /home/osboxes/sisop20/soal3a.sh
 ```
 
 `5` artinya menit ke-5.
