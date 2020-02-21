@@ -1,12 +1,12 @@
-# SoalShiftSISOP20_modul1_H01
+# SoalShiftSISOP20_modul1_T21
 
-Soal Shift Sistem Operasi 2020\
+Soal Shift Sistem Operasi 2020
 
 
 Hisyam Zulkarnain F             05311840000019\
 Bayu Trianayasa                 05311840000038
 ## #1 &ndash; Mengolah Data
-> Source code: [soal1.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal1.sh)
+> Source code: [soal1.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal1.sh)
 
 ---
 Soal 1A\
@@ -76,7 +76,8 @@ awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%
 
 
 ## #2 &ndash; Membuat Password acak, lalu melakukan Enkripsi & Dekripsi dari password acak tersebut
-> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2.sh), [soal2c.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2c.sh), [soal2d.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2d.sh)
+> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21
+/blob/master/soal2.sh), [soal2c.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2c.sh), [soal2d.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal2d.sh)
 
 ---
 
@@ -143,7 +144,7 @@ Sama saja seperti *script* enkripsi, hanya saja set pertama dan set kedua dituka
 `stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)'` untuk menampilkan file sistem status lalu mengambil jam file input dibuat. 
 
 ## #3 &ndash;
-> Source code: [soal3a.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3a.sh), [soal3b.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3b.txt).
+> Source code: [soal3a.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal3a.sh), [soal3b.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_T21/blob/master/soal3b.txt).
 
 ---
 
