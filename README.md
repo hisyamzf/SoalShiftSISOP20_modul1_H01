@@ -4,25 +4,17 @@ Soal shift Sistem Operasi 2020\
 Hisyam Zulkarnain F             05311840000019\
 Bayu Trianayasa                 05311840000038
 ## #1 &ndash; Mengolah Data
-> Source code: [soal1.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal1/soal1.sh)
+> Source code: [soal1.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal1.sh)
 
 ---
-
-Untuk bagian soal (a), diminta mencari satu *region* dengan *profit* paling minimal.
+Soal 1A menncari satu *region* dengan *profit* paling minimal.
 
 Soal (a) dapat diselesaikan dengan program AWK menggunakan *field separator* karakter tab sebagai berikut.
 
-```awk
-awk -F '	' '
-{
-	if ($13 != "Region")
-		data[$13] += $21
-}
-END {
-	for (i in data) {
-		print data[i] " " i
-	}
-}' Sample-Superstore.tsv
+```a=`awk -F "," 'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' Sample-Superstore.csv | sort -g -t"," -k 2  | awk -F "," 'NR<2 {printf "%s\n", $1 }'`
+echo $a
+echo ""
+
 ```
 
 Untuk setiap baris, perlu dicek apakah baris tersebut merupakan baris pertama (yang bukan merupakan data) dengan `if ($13 != "Region")`.
