@@ -7,7 +7,8 @@ Bayu Trianayasa                 05311840000038
 > Source code: [soal1.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal1.sh)
 
 ---
-Soal 1A mencari satu *region* dengan *profit* paling minimal.
+Soal 1A\
+Mencari satu *region* dengan *profit* paling minimal.
 
 ```
 
@@ -33,7 +34,8 @@ echo ""
 
 ---
 
-Soal 1B mencari state yang memimiliki profit paling rendah berdasarkan hasil dari poin 1A
+Soal 1B\
+Mencari state yang memiliki profit paling rendah berdasarkan hasil dari poin 1A
 
 ```
 b=`awk -F "," -v a=$a 'NR>1{if($13~a)var[$11]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<3 {printf "%s\n", $1 }'`
@@ -53,7 +55,8 @@ Option`-v a="$a"`untuk memasukkan variabel *shell* ke dalam program AWK dengan n
 ``c1=`echo $b` | `awk -F " " '{print $1}'`` berfungsi untuk mencetak kolom 1 dari hasil state yang telah dikelompokkan berdasarkan profitnya. karena output dari perintah sebelumnya menghasilkan 2 hasil (state) 
 
 ---
-Soal 1C mencari 10 nama produk yang memiliki profit paling sedikit berdasarkan state yang telah ditentukan dari point 1B. 
+Soal 1C\
+Mencari 10 nama produk yang memiliki profit paling sedikit berdasarkan state yang telah ditentukan dari point 1B. 
 
 ```
 awk -F "," -v c=$c1 'NR>1{if($11~c)var[$17]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<11 {printf "%s\n", $1 }'
