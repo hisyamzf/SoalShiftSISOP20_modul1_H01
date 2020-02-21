@@ -1,6 +1,6 @@
 # SoalShiftSISOP20_modul1_H01
 
-Soal shift Sistem Operasi 2020\
+Soal Shift Sistem Operasi 2020\
 Hisyam Zulkarnain F             05311840000019\
 Bayu Trianayasa                 05311840000038
 ## #1 &ndash; Mengolah Data
@@ -74,64 +74,71 @@ awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%
 
 
 ## #2 &ndash; Membuat Password acak, lalu melakukan Enkripsi & Dekripsi dari password acak tersebut
-> Source code: [soal2.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2.sh), [soal2_enkripsi.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2_enkripsi.sh), [soal2_dekripsi.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal2/soal2_dekripsi.sh)
+> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2.sh), [soal2_enkripsi.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2c.sh), [soal2_dekripsi.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2d.sh)
 
 ---
 
-Pertama, untuk men-*generate* password sepanjang 28 karakter alfanumerik, digunakan perintah berikut.
+
+Soal 2a 2b\
+Membuat password acak lalu menyimpannya dengan ekstensi .txt
 
 ```shell
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1 > `echo $1 | tr -dc 'a-zA-Z'`.txt
 ```
 
-`cat /dev/urandom` membaca lokasi `/dev/urandom`, yaitu file spesial dalam UNIX yang berfungsi sebagai *pseudo-RNG*.
+`cat /dev/urandom` untuk mengambil password acak lalu dipilih sebanyak 28 karakter `fold -w 28` dan diambil baris pertama saja `head -n 1`.
 
-`tr -dc 'a-zA-Z0-9'` menseleksi hasil output random tersebut dan hanya mengoutputkan karakter alfanumerik saja dengan mendelete (`-d`) semua karakter kecuali (`-c`) a-z, A-Z, dan 0-9.
+`tr -dc 'a-zA-Z0-9'` untuk menyeleksi hasil output random tersebut dan hanya menghasilkan karakter alfanumerik saja dengan mendelete (`-d`) semua karakter kecuali (`-c`) a-z, A-Z, dan 0-9.
 
-`fold -w 28` memecah output menjadi baris-baris dengan panjang baris 28 karakter.
-
-`head -n 1` mengambil baris teratas saja untuk mendapatkan satu hasil.
-
-Hasil perintah-perintah di atas disimpan ke dalam file yang namanya diinputkan sebagai argumen (`$1`) dan diproses sehingga hanya mengandung karakter alfabet dengan `tr -dc 'a-zA-Z'`.
+Kemudian hasil perintah di atas disimpan ke dalam file yang namanya diinputkan sebagai argumen (`$1`) sehingga hanya mengandung karakter alfabet dengan `tr -dc 'a-zA-Z'`.
 
 ---
 
-Kemudian, *script* enkripsi dibuat dengan perintah berikut.
+Soal 2c\
+Script Bash Enkripsi
 
 ```shell
-strip='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
-strip2='ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
-a=$(echo $1 | grep -oP '.*(?=\.txt)' | tr ${strip:0:26}${strip2:0:26} ${strip:`date +%-H`:26}${strip2:`date +%-H`:26})
-cp $1 $a".txt"
+#!/bin/bash
+kecil='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
+gede='ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+a=$(echo $1 | grep -oP '.*(?=\.txt)' | tr ${kecil:0:26}${gede:0:26} ${kecil:`date +%-H`:26}${gede:`date +%-H`:26})
+mv $1 $a".txt"
 ```
 
-Dibuat dua variabel yang berisi urutan alfabet kecil dan kapital sebanyak dua perulangan.
+urutan alfabet huruf kecil lalu dimasukkan ke variabel *kecil*
 
-`echo $1 | grep -oP '.*(?=\.txt)'` membaca argumen pertama untuk nama file, dan mengambil namanya saja tanpa ekstensi.
+urutan alfabet huruf besar lalu dimasukkan ke variabel *gede*
 
-`tr ${strip:0:26}${strip2:0:26} ${strip:``date +%-H``:26}${strip2:``date +%-H``:26}` melakukan *caesar cipher* dengan membuat dua set urutan karakter. `${strip:0:26}` untuk mengambil substring dari variable `strip` yaitu 26 karakter pertama (a-z). Sama untuk karakter kapital, dengan `${strip2:0:26}`. Set kedua dibuat dengan cara yang sama, namun dengan `${strip:``date +%-H``:26}${strip2:``date +%-H``:26}` menggeser bagian yang diambil sesuai dengan jam sekarang dengan `date +%-H`.
+dibuat secara 2x perulangan karena memiliki patokan dengan range *jam* yaitu 2 digit. 
 
-Contoh, pada jam 3 pagi maka perintah `tr` akan menjadi `tr abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ defghijklmnopqrstuvwxyzabcDEFGHIJKLMNOPQRSTUVWXYZABC`.
+`echo $1 | grep -oP '.*(?=\.txt)'` membaca argumen pertama  lalu mengambil nama file saja tanpa ekstensi.
 
-Hasilnya digunakan untuk memberi nama salinan file yang diinputkan dengan perintah `cp $1 $a".txt`.
+`tr ${kecil:0:26}${gede:0:26} ${kecil:``date +%-H``:26}${gede:``date +%-H``:26}` melakukan caesar cipher dengan membuat dua set karakter. 
+
+`${kecil:0:26}` untuk mengambil alfabet dari variable `kecil` yaitu 26 karakter pertama (a-z). Begitu juga untuk huruf kapital, dengan `${gede:0:26}`. 
+
+`${kecil:``date +%-H``:26}${gede:``date +%-H``:26}` Sama seperti sebelumnya untuk men set 2 karakter, namun dengan menggeser bagian yang diambil sesuai dengan jam sekarang dengan `date +%-H`.
+
+Lalu hasilnya digunakan untuk men cut nama  file yang diinputkan dengan perintah `mv $1 $a".txt`.
 
 ---
+Soal 2d\
+Script Bash Dekripsi 
 
-*Script* dekripsi dibuat dengan perintah berikut.
 
 ```shell
-strip='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
-strip2='ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+#!/bin/bash
+
+kecil='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
+gede='ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
 amt=$(stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)')
-a=$(echo $1 | grep -oP '.*(?=\.txt)' | tr ${strip:$amt:26}${strip2:$amt:26} ${strip:0:26}${strip2:0:26})
-cp $1 $a".txt"
+a=$(echo $1 | grep -oP '.*(?=\.txt)' | tr ${kecil:$amt:26}${gede:$amt:26} ${kecil:0:26}${gede:0:26})
+mv $1 $a".txt"
 ```
 
-Sama saja seperti *script* enkripsi, hanya saja set pertama dan set kedua ditukar sehingga pergeseran dibalik. Lalu, pergeseran yang dilakukan sebanyak jam file input dibuat, yang bisa diambil dengan `stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)'`
+Sama saja seperti *script* enkripsi, hanya saja set pertama dan set kedua ditukar sehingga pergeseran dibalik. Lalu, pergeseran yang dilakukan sebanyak jam file input dibuat, yang bisa diambil dengan 
 
-`stat -c %y $1` untuk mengakses waktu file dimodifikasi (dan dibuat).
-
-`grep -oP '(?<=[^ ] ).*(?=:.*:)'` untuk mengambil jamnya saja.
+`stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)'` untuk menampilkan file sistem status lalu mengambil jam file input dibuat. 
 
 ## #3 &ndash; Cat
 > Source code: [soal3.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3.sh), [soal3_cron.txt](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3_cron.txt), [soal3_identify.sh](https://github.com/1Maximuse/SoalShiftSISOP20_modul1_B09/blob/master/soal3/soal3_identify.sh)
