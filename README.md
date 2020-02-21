@@ -52,7 +52,7 @@ Option`-v a="$a"`untuk memasukkan variabel *shell* ke dalam program AWK dengan n
 
 ``c1=`echo $b` | `awk -F " " '{print $1}'`` berfungsi untuk mencetak kolom 1 dari hasil state yang telah dikelompokkan berdasarkan profitnya. karena output dari perintah sebelumnya menghasilkan 2 hasil (state) 
 
-
+---
 Soal 1C mencari 10 nama produk yang memiliki profit paling sedikit berdasarkan state yang telah ditentukan dari point 1B. 
 
 ```
