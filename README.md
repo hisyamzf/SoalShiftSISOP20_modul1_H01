@@ -1,4 +1,4 @@
-# SoalShiftSISOP20_modul1_B09
+# SoalShiftSISOP20_modul1_H01
 
 Soal shift Sistem Operasi 2020\
 Hisyam Zulkarnain F             05311840000019\
@@ -7,27 +7,32 @@ Bayu Trianayasa                 05311840000038
 > Source code: [soal1.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal1.sh)
 
 ---
-Soal 1A menncari satu *region* dengan *profit* paling minimal.
-
-Soal (a) dapat diselesaikan dengan program AWK menggunakan *field separator* karakter tab sebagai berikut.
+Soal 1A mencari satu *region* dengan *profit* paling minimal.
 
 ```a=`awk -F "," 'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' Sample-Superstore.csv | sort -g -t"," -k 2  | awk -F "," 'NR<2 {printf "%s\n", $1 }'`
 echo $a
 echo ""
 
 ```
+`awk -F ","` Option -F untuk memisah bidang/kolom yang terdapat di .csv
 
-Untuk setiap baris, perlu dicek apakah baris tersebut merupakan baris pertama (yang bukan merupakan data) dengan `if ($13 != "Region")`.
 
-Apabila baris merupakan baris data, *field* ke-21 (*profit*) ditambahkan ke dalam *associative array* dengan *key* *field* ke-13 (*region*).
+`'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' untuk mengelompokan masing2 region(kolom13) beserta profitnya(kolom21) lalu dijumlahkan profitnya terhadap region yang sama. lalu cetak hasil pengelompokan serta penjumlahan tersebut.
 
-Setelah melakukan iterasi terhadap seluruh baris file, maka *array* data berisi *profit* total dari setiap *region*. Kita melakukan print untuk setiap *region* yang ada beserta dengan *profit*nya, dengan format berikut.
 
-```
-<profit1> <region1>
-<profit2> <region2>
-...
-```
+`Sample-Superstore.csv` Nama file yang ingin diolah datanya.
+
+
+`sort -g -t"," -k 2` untuk mensortir hasil dari pengelompokkan sebelumnya. `-g` untuk mensortir general number `-t","` untuk mengatur field separatornya dan `-k 2` untuk set key terhadap kolom profit(kolom 2).
+
+
+`awk -F "," 'NR<2 {printf "%s\n", $1 }'`` untuk mencetak hasil dari sortiran dan mencetak hasil kolom 1 aja.
+`echo $a` untuk mencetak hasil dari variabel a
+
+
+
+
+
 
 Output dari perintah AWK tersebut di-*pipe* ke dalam urutan perintah berikut.
 
