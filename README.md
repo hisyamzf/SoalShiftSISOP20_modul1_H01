@@ -10,7 +10,7 @@ Bayu Trianayasa                 05311840000038
 Soal 1A\
 Mencari satu *region* dengan *profit* paling minimal.
 
-```
+```bash
 
 `a=`awk -F "," 'NR>1{var[$13]+=$21} END{for( c in var) printf "%s,%f\n",c , var[c]}' Sample-Superstore.csv | sort -g -t"," -k 2  | awk -F "," 'NR<2 {printf "%s\n", $1 }'`
 echo $a
@@ -37,7 +37,7 @@ echo ""
 Soal 1B\
 Mencari state yang memiliki profit paling rendah berdasarkan hasil dari poin 1A
 
-```
+```bash
 b=`awk -F "," -v a=$a 'NR>1{if($13~a)var[$11]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<3 {printf "%s\n", $1 }'`
 c1=`echo $b | awk -F " " '{print $1}'`
 c2=`echo $b | awk -F " " '{print $2}'`
@@ -58,7 +58,7 @@ Option`-v a="$a"`untuk memasukkan variabel *shell* ke dalam program AWK dengan n
 Soal 1C\
 Mencari 10 nama produk yang memiliki profit paling sedikit berdasarkan state yang telah ditentukan dari point 1B. 
 
-```
+```bash
 awk -F "," -v c=$c1 'NR>1{if($11~c)var[$17]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F "," 'NR<11 {printf "%s\n", $1 }'
 echo ""
 awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%f\n",i, var[i]}' Sample-Superstore.csv | sort -g -t"," -k 2 | awk -F " ," 'NR<11 {printf "%s\n", $1}'
@@ -74,7 +74,7 @@ awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%
 
 
 ## #2 &ndash; Membuat Password acak, lalu melakukan Enkripsi & Dekripsi dari password acak tersebut
-> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2.sh), [soal2_enkripsi.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2c.sh), [soal2_dekripsi.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2d.sh)
+> Source code: [soal2.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2.sh), [soal2c.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2c.sh), [soal2d.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal2d.sh)
 
 ---
 
@@ -82,7 +82,7 @@ awk -F "," -v d=$c2 'NR>1{if($11~d)var[$17]+=$21} END{for(i in var) printf "%s,%
 Soal 2a 2b\
 Membuat password acak lalu menyimpannya dengan ekstensi .txt
 
-```shell
+```bash
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1 > `echo $1 | tr -dc 'a-zA-Z'`.txt
 ```
 
@@ -97,7 +97,7 @@ Kemudian hasil perintah di atas disimpan ke dalam file yang namanya diinputkan s
 Soal 2c\
 Script Bash Enkripsi
 
-```shell
+```bash
 #!/bin/bash
 kecil='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
 gede='ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -126,7 +126,7 @@ Soal 2d\
 Script Bash Dekripsi 
 
 
-```shell
+```bash
 #!/bin/bash
 
 kecil='abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
