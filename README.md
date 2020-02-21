@@ -143,7 +143,7 @@ Sama saja seperti *script* enkripsi, hanya saja set pertama dan set kedua dituka
 `stat -c %y $1 | grep -oP '(?<=[^ ] ).*(?=:.*:)'` untuk menampilkan file sistem status lalu mengambil jam file input dibuat. 
 
 ## #3 &ndash;
-> Source code: [soal3a.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3a.sh), [soal3b.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3b.txt, [soal3c.sh]()
+> Source code: [soal3a.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3a.sh), [soal3b.sh](https://github.com/hisyamzf/SoalShiftSISOP20_modul1_H01/blob/master/soal3b.txt).
 
 ---
 
